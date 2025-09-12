@@ -50,3 +50,4 @@ temp/
 # MongoDB data (if you run local db with dump)
 dump/
 data/
+
