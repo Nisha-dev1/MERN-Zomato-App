@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import UserLogin from "../pages/UserLogin";
 import PartnerLogin from "../pages/PartnerLogin";
 import UserRegister from "../pages/UserRegister";
 import PartnerRegister from "../pages/PartnerRegister";
+import Home from "../pages/general/Home";
+import CreateFood from "../pages/food-partner/CreateFood";
+import Profile from "../pages/food-partner/Profile";
+
+
 
 const AppRoutes = () => {
-  const [darkMode, setDarkMode] = useState(true); // ✅ default: dark mode
+  const [darkMode, setDarkMode] = useState(true);
+  const location = useLocation(); // ✅ to check current path
 
   useEffect(() => {
-    // ✅ Load saved theme from localStorage if exists
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       setDarkMode(savedTheme === "dark");
@@ -26,21 +31,33 @@ const AppRoutes = () => {
     }
   }, [darkMode]);
 
+  // Show theme toggle only on login/register pages
+  const showToggle = [
+    "/user-login",
+    "/partner-login",
+    "/user-register",
+    "/partner-register"
+  ].includes(location.pathname);
+
   return (
     <>
-      {/* 🌙 / 🌞 theme toggle */}
-      <button
-        className="theme-toggle"
-        onClick={() => setDarkMode(!darkMode)}
-      >
-        {darkMode ? "🌞" : "🌙"}
-      </button>
+      {showToggle && (
+        <button
+          className="theme-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? "🌞" : "🌙"}
+        </button>
+      )}
 
       <Routes>
         <Route path="/user-login" element={<UserLogin />} />
         <Route path="/partner-login" element={<PartnerLogin />} />
         <Route path="/user-register" element={<UserRegister />} />
         <Route path="/partner-register" element={<PartnerRegister />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/create-food" element={<CreateFood />} />
+        <Route path="/food-partner/:id" element={<Profile />} />
       </Routes>
     </>
   );

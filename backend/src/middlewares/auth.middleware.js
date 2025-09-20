@@ -6,20 +6,22 @@ const jwt = require("jsonwebtoken");
 async function authFoodPartnerMiddleware(req, res, next) {
     const token = req.cookies.token;
     if (!token) {
-        return res.status(401).json({
-            message: "please login first"
-        });
+        return res.status(401).json({ message: "please login first" });
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.foodpartner = await foodpartnermodel.findById(decoded.id);
-        // ❌ remove this line: req.foodpartner = foodpartner
-        next();     
+
+        // Attach as req.user (same as user middleware)
+        const partner = await foodpartnermodel.findById(decoded.id).select("-password");
+        if (!partner) {
+            return res.status(401).json({ message: "Partner not found" });
+        }
+
+        req.user = partner;   // ✅ use req.user consistently
+        next();
     } catch (error) {
-        return res.status(401).json({
-            message: "Invalid token"
-        }); 
-    }   
+        return res.status(401).json({ message: "Invalid token" });
+    }
 }
 
 async function authUserMiddleware(req, res, next) {

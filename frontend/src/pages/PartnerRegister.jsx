@@ -1,15 +1,61 @@
 import React from "react";
 import "../css/style.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const PartnerRegister = () => {
-  
+
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // collect values from form
+    const Name = e.target.businessName.value.trim();
+    const contactName = e.target.contactName.value.trim();
+    const phone = e.target.phone.value.trim();
+    const email = e.target.partnerEmail.value.trim();
+    const password = e.target.partnerPassword.value;
+    const address = e.target.partnerAddress.value.trim();
+
+    try {
+      const res = await axios.post(
+        "/api/auth/foodpartner/register",
+        {
+          name: Name, // 🔹 backend expects lowercase
+          contactName,
+          phone,
+          email,
+          password,
+          address,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true, // ✅ cookies will be saved
+        }
+      );
+
+      console.log("Partner registration response:", res.data);
+
+      alert(res.data.message || "Registration successful!");
+      navigate("/create-food"); // redirect to login page after successful registration
+    } catch (err) {
+      console.error("Registration failed:", err.response || err.message);
+      alert(
+        err.response?.data?.message ||
+          err.response?.statusText ||
+          err.message ||
+          "Server not reachable"
+      );
+    }
+  };
+
   return (
     <div className="container">
-      <h2>Food Partner Registration</h2>
-      <form>
+      <h2>Food Partner Sign up</h2>
+      <form onSubmit={handleSubmit}>
         <div className="form-row">
-           <div className="form-group">
-            <label htmlFor="businessName">Business Name</label>
+          <div className="form-group">
+            <label htmlFor="businessName">Name</label>
             <input
               type="text"
               id="businessName"
@@ -17,12 +63,9 @@ const PartnerRegister = () => {
               required
             />
           </div>
-
         </div>
 
-
         <div className="form-row">
-         
           <div className="form-group">
             <label htmlFor="contactName">Contact Name</label>
             <input

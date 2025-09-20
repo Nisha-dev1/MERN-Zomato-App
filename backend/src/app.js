@@ -5,6 +5,7 @@ const cors = require("cors");
 // Routes
 const authRoutes = require("./routes/auth.routes");
 const foodRoutes = require("./routes/food.routes");
+const foodPartnerRoutes = require("./routes/food-partner.routes");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/food", foodRoutes);
+app.use("/api/food-partner", foodPartnerRoutes); // Use the variable you imported above
 
 app.use(cors({
   origin: "http://localhost:5173",  // ✅ frontend URL

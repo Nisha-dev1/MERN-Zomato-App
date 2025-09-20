@@ -1,8 +1,11 @@
 import React from "react";
 import "../css/style.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserRegister = () => {
+
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,7 +33,8 @@ const UserRegister = () => {
 
       console.log("Server response:", res.data);
       alert(res.data.message || "Registration successful");
-      window.location.href = "/user-login";
+      navigate("/user-login ");
+
     } catch (err) {
       console.error("Registration failed:", err.response || err.message);
       alert(
@@ -41,6 +45,7 @@ const UserRegister = () => {
       );
     }
   };
+
 
   return (
     <div className="container">

@@ -1,3 +1,6 @@
+/* ===========================
+   Global + Variables
+=========================== */
 @import url("variables.css");
 
 * {
@@ -8,25 +11,27 @@
 }
 
 body {
-  background: var(--bg-color);
-  color: var(--text-color);
+  background: var(--bg-color, #f9f9f9);
+  color: var(--text-color, #111);
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
 
+/* ===========================
+   Shared Container
+=========================== */
 .container {
-  background: var(--card-bg);
+  background: var(--card-bg, #fff);
   padding: 3rem 2.5rem;
   border-radius: 1.2rem;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
   width: 60vh;
-  max-width: 700px;   /* Equal width */
+  max-width: 700px;
   margin: auto;
   animation: fadeIn 0.4s ease-in-out;
 }
-
 
 h2 {
   margin-bottom: 2rem;
@@ -35,9 +40,11 @@ h2 {
   text-align: center;
 }
 
-/* Form styling */
+/* ===========================
+   Forms (Login/Register)
+=========================== */
 form {
-  width: 100%;   /* force form to take container width */
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -55,28 +62,30 @@ form {
   color: var(--text-color);
 }
 
-input {
+input,
+textarea {
   padding: 0.85rem 1rem;
   border-radius: 0.8rem;
-  border: 1px solid var(--border-color);
-  background: var(--input-bg);
-  color: var(--text-color);
+  border: 1px solid var(--border-color, #ddd);
+  background: var(--input-bg, #fff);
+  color: var(--text-color, #111);
   outline: none;
   width: 100%;
   font-size: 1rem;
   transition: all 0.25s ease;
 }
 
-input::placeholder {
-  color: var(--placeholder-color);
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder-color, #aaa);
 }
 
-input:focus {
-  border-color: var(--primary-color);
+input:focus,
+textarea:focus {
+  border-color: var(--primary-color, #2563eb);
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
 }
 
-/* Row for Partner Register */
 .form-row {
   display: flex;
   gap: 1rem;
@@ -86,9 +95,18 @@ input:focus {
   flex: 1;
 }
 
-/* Button */
-button {
-  background: var(--primary-color);
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+
+/* ===========================
+   Buttons
+=========================== */
+button,
+.btn-primary {
+  background: var(--primary-color, #2563eb);
   color: #fff;
   border: none;
   padding: 0.9rem;
@@ -97,25 +115,27 @@ button {
   font-weight: 600;
   font-size: 1rem;
   transition: all 0.25s ease;
-  /* width: 100%; */
 }
 
-button:hover {
+button:hover,
+.btn-primary:hover {
   background: #1d4ed8;
   transform: translateY(-1px);
   box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
 }
 
-/* Links */
+/* ===========================
+   Links + Paragraphs
+=========================== */
 p {
   margin-top: 1.5rem;
   font-size: 0.95rem;
   text-align: center;
-  color: var(--muted-text);
+  color: var(--muted-text, #777);
 }
 
 a {
-  color: var(--primary-color);
+  color: var(--primary-color, #2563eb);
   font-weight: 500;
   text-decoration: none;
 }
@@ -124,20 +144,30 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Fade animation */
+/* ===========================
+   Animations
+=========================== */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Theme toggle button */
+/* ===========================
+   Theme Toggle
+=========================== */
 .theme-toggle {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: var(--card-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+  background: var(--card-bg, #fff);
+  color: var(--text-color, #111);
+  border: 1px solid var(--border-color, #ddd);
   padding: 0.6rem 0.9rem;
   border-radius: 50%;
   cursor: pointer;
@@ -147,14 +177,513 @@ a:hover {
 }
 
 .theme-toggle:hover {
-  background: var(--primary-color);
+  background: var(--primary-color, #2563eb);
   color: #fff;
-  border-color: var(--primary-color);
+  border-color: var(--primary-color, #2563eb);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
+/* ===========================
+   Reels (Full Screen Scroll)
+=========================== */
+.reel-container {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background: linear-gradient(180deg, #111 0%, #000 100%);
+  scrollbar-width: thin;
+  scrollbar-color: #00c853 transparent;
+}
+
+.reel-video {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.reel-video:hover {
+  transform: scale(1.02);
+}
+
+.reel-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* always crop instead of stretch */
+  object-position: center; /* keep video centered */
+  filter: brightness(0.7) contrast(1.1);
+  transition: filter 0.3s ease, transform 0.5s ease;
+}
+
+.reel-video:hover .reel-media {
+  filter: brightness(0.9) contrast(1.1);
+  transform: scale(1.05);
+}
+
+.reel-overlay {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #fff;
+}
+
+.reel-desc {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  max-width: 80%;
+  line-height: 1.4;
+}
+
+.reel-btn {
+  background: linear-gradient(90deg, #2563eb 60%, #00c853 100%);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.reel-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #1d4ed8 60%, #00b84d 100%);
+}
+
+/* ===========================
+   Food Partner Profile
+=========================== */
+.fp-profile-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.fp-profile-header {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+}
+
+.fp-profile-avatar-wrapper {
+  background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf);
+  border-radius: 50%;
+  padding: 2px;
+  margin-bottom: 12px;
+}
+
+.fp-profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #fff;
+}
+
+.fp-profile-business {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0;
+  color: #222;
+}
+
+.fp-profile-address {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 4px;
+}
+
+.fp-profile-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  background: #fafafa;
+}
+
+.fp-profile-stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.fp-profile-stat-label {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.fp-profile-divider {
+  border: none;
+  border-top: 1.2px solid #eee;
+  margin: 0;
+}
+
+.fp-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 6px;
+  width: 100%;
+}
+
+.fp-profile-grid-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.fp-profile-grid-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fp-profile-grid-item:hover video {
+  transform: scale(1.05);
+}
+
+.fp-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: white;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* ===========================
+   Modal (Fullscreen Video)
+=========================== */
+.fp-video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.fp-video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 95%;
+}
+
+.fp-video-wrapper video {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.fp-video-overlay {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.fp-video-desc {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #eee;
+}
+
+.fp-video-btn {
+  background: linear-gradient(90deg, #2563eb, #00c853);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.fp-video-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #1d4ed8, #00b84d);
+}
+
+.fp-no-videos {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+.fp-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.fp-close-btn:hover {
+  transform: scale(1.2);
+  color: #ff4444;
+}
+
+/* ===========================
+   Create Food Form (Mobile First)
+=========================== */
+.create-food-container {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-color, #f9fafb);
+}
+
+.create-food-card {
+  /* background: var(--card-bg, #fff); */
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.create-food-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-color, #111);
+  text-align: center;
+}
+
+/* Form */
+.create-food-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Labels */
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-color, #222);
+}
+
+/* Hide default input */
+.hidden-input {
+  display: none;
+}
+
+/* Upload Box */
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border-color, #ddd);
+  border-radius: 10px;
+  padding: 2rem 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  background: var(--input-bg, #fafafa);
+  text-align: center;
+}
+
+.upload-box:hover {
+  border-color: #ff6f61;
+}
+
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #888;
+  border-radius: 12px;
+  padding: 30px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  color: #555;
+  background: #fafafa;
+}
+
+.upload-label:hover {
+  border-color: #4cafef;
+  background: #f0f8ff;
+  color: #333;
+}
+
+.upload-label svg {
+  margin-bottom: 8px;
+  color: #4cafef;
+  font-size: 2rem;
+}
+
+.food-preview {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 0.6rem;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1rem;
+  z-index: 2; /* ✅ ensure typing works */
+  position: relative;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: #ff6f61;
+}
+
+.btn-primary {
+  background: var(--primary-color, #2563eb);
+  color: #fff;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+/* ===========================
+   Responsive Breakpoints
+=========================== */
+@media (min-width: 768px) {
+  .fp-profile-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .create-food-card {
+    max-width: 480px;
+    margin: auto;
+  }
+  .fp-profile-container {
+    max-width: 430px; /* same as mobile width */
+    margin: 0 auto; /* center on desktop */
+    background: white; /* keep clean mobile card look */
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+  }
+
+  .fp-profile-business {
+    font-size: 1.3rem;
+  }
+
+  .fp-profile-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns fixed */
+    gap: 2px; /* tighter spacing like Instagram */
+  }
+
+  .fp-profile-grid-item {
+    aspect-ratio: 1/1.7; /* keep square images */
+    overflow: hidden;
+  }
+
+  .fp-video-overlay {
+    width: 70%;
+    bottom: 70px;
+  }
+
+  .create-food-title {
+    font-size: 1.8rem;
+  }
+
+  .food-preview {
+    max-height: 320px;
+  }
+
+  .fp-profile-grid-item img,
+  .fp-profile-grid-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* avoid stretching */
+  }
+}
+
+@media (min-width: 1024px) {
+  .fp-video-wrapper {
+    max-width: 800px;
+  }
+
+  /* ✅ Desktop reels fix */
+  .reel-container {
+    max-width: 430px; /* mimic mobile width */
+    height: 100vh;
+    margin: 0 auto; /* center reels */
+    background: black; /* TikTok/Instagram style background */
+  }
+
+  .reel-video {
+    width: 100%;
+    height: 100%;
+  }
+
+  .reel-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 }

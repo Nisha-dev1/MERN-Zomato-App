@@ -16,6 +16,10 @@ const foodSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "foodpartner",
         required: true
+    },
+    likesCount: {
+        type: Number,
+        default: 0
     }
 },
     {
